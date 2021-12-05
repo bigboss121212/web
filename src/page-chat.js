@@ -37,14 +37,12 @@ window.addEventListener("load", () => {
 
 // Lorsqu'un nouveau message doit être affiché à l'écran, cette fonction est appelée
 const newMessage = (fromUser, message, isPrivate) => {
-    console.log(fromUser, message, isPrivate);
     messageList.push({
         id: ++id,
         fromUser: fromUser,
         message: message,
         isPrivate: isPrivate,
     })
-    console.log(messageList)
 }
 
 // À chaque 2-3 secondes, cette fonction est appelée. Il faudra donc mettre à jour la liste des membres
@@ -53,6 +51,7 @@ const memberListUpdate = members => {
     
     if(long > members.length){
         messageList = [];
+        bool = true
     }
     long = members.length;
 
@@ -65,20 +64,20 @@ const memberListUpdate = members => {
             })
         }
         else if(!bool){
+                console.log("yo")
                 memberList.push({
                 id:max,
-                members: members[0]
+                members: members[max+1]
             })
         }
         spriteList.push(new pDiablo(max));
         max++ 
     }
-    
-    if(long < max){
-        if(!bool)
-            bool= true;
-        else if(bool)
-            bool= false;
+    console.log(long)
+    console.log(max)
+    if(long == max){
+        if(bool)
+        bool= false;
     }
 
     for (let i =0; i < spriteList.length; i++) {
@@ -86,7 +85,6 @@ const memberListUpdate = members => {
         let alive = sprite.tick();
 
         if (!alive) {
-            // le 1 veut dire enleve 1 element
             spriteList.splice(i,1);
             i--;
         }

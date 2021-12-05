@@ -27,7 +27,7 @@ class Ninja{
       this.bouleList = [];
       this.tiledImage = new TiledImage("img/run.png", columCount, rowCount, delay, loop, scale)
       this.tiledImage.changeRow(0); // s'il y a seulement une range
-      this.tiledImage.changeMinMaxInterval(0,7);
+      this.tiledImage.changeMinMaxInterval(0,6);
       this.tiledImage.nodeID = n
       this.tiledImage.opacity = 0.5;
       this.y = Math.random() * 700 + 100;
@@ -107,7 +107,7 @@ class Goute {
         this.x -=5
       this.monte +=1
       let degrade = ctx.createRadialGradient(this.x+this.diff,this.y-100-this.monte-(this.id*10.5),10,this.x+7+this.diff,this.y+5-100-this.monte-(this.id*10.5),20);  
-      degrade.addColorStop(0, '#A7D80C');  
+      degrade.addColorStop(0, '#CF0A2C');  
       degrade.addColorStop(0.9, '#079F62');  
       degrade.addColorStop(1, 'rgba(1,159,98,0)');  // couleur transparente
       ctx.globalAlpha =0.5;
