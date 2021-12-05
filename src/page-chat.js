@@ -48,14 +48,54 @@ const newMessage = (fromUser, message, isPrivate) => {
 // À chaque 2-3 secondes, cette fonction est appelée. Il faudra donc mettre à jour la liste des membres
 // connectés dans votre interface.
 const memberListUpdate = members => {
-    
-    if(long > members.length){
+    /*if(long>members.length){
+        memberList=[]
+        for(let i = 0; i< spriteList.length; i++){
+            let cla = ".pDiablo" + i;
+            let node = document.querySelector(cla)
+            document.querySelector("body").removeChild(node);
+        }
+        spriteList=[]
+        long = 0;
+    }*/
+
+
+    if(bool){
+        for(let i = 0; i< members.length; i++){
+            memberList.push({
+                id:i,
+                members: members[i]
+            })
+            spriteList.push(new pDiablo(i));    
+        }
+        bool = false;
+    }
+    else if(members.length > memberList.length){
+        memberList.push({
+            id:members.length,
+            members: members[members.length]
+        })
+        spriteList.push(new pDiablo(members.length)); 
+    }
+    else if(members.length < memberList.length){
+        for(let i = 0; i < memberList.length; i ++){
+            if (members[i]!= memberList[i]){
+                memberList.splice(i,1);
+                let cla = ".pDiablo" + i;
+                let pDiablo = document.querySelector(cla)
+                document.querySelector("body").removeChild(pDiablo);
+            }
+        }
+    }
+
+    long = members.length;
+
+    /*if(long > members.length){
         messageList = [];
         bool = true
     }
     long = members.length;
 
-    console.log(long)
     if (long > max){
         if(bool){
             memberList.push({
@@ -67,18 +107,17 @@ const memberListUpdate = members => {
                 console.log("yo")
                 memberList.push({
                 id:max,
-                members: members[max+1]
+                members: members[max]
             })
         }
         spriteList.push(new pDiablo(max));
         max++ 
     }
-    console.log(long)
-    console.log(max)
+
     if(long == max){
         if(bool)
         bool= false;
-    }
+    }*/
 
     for (let i =0; i < spriteList.length; i++) {
         let sprite = spriteList[i];
@@ -89,7 +128,6 @@ const memberListUpdate = members => {
             i--;
         }
     }
-
 }
 
 new Vue({
@@ -99,26 +137,17 @@ new Vue({
 })
 
 window.addEventListener("load", () => {
-
-    document.querySelector(".pDiablo").onclick = event => {
-        let gifDiablo = document.querySelector(".pDiablo");
-
-        mouseLocation.x = event.pageX;
-        mouseLocation.y = event.pageY;
-
-    }
     tick();
 });
 
 const tick = () => {
-
     window.requestAnimationFrame(tick)
 }
 
 class pDiablo{
     constructor(max){
 
-        this.x = Math.random() * 700 + 300;
+        this.x = 50 + max * 200;
         this.y = Math.random() * 600;
         this.mstNo =  Math.floor(Math.random() * 5 + 1);
         this.node = document.createElement("img");
@@ -127,19 +156,26 @@ class pDiablo{
         this.node.style.top = this.y + "px";
         this.max = max;
         this.nom = false;
+        
         if (this.mstNo>1){
 
-            this.node.style.top =  50 + "vh";
+            this.node.style.top = 50 + "vh";
             console.log(this.node.style.top)
         }
         this.node.style.opacity = 1;
-  
         document.querySelector("body").appendChild(this.node);
 
+        this.node.onclick = event => {
+            console.log("yo")
+            mouseLocation.x = event.pageX;
+            console.log(mouseLocation.x)
+            mouseLocation.y = event.pageY;
+            this.x = mouseLocation.x
+            this.y = mouseLocation.y 
+        }
     }
 
     tick() {
-
         this.node.style.left = this.x + "px";
         let alive = this.node.style.opacity > 0;
         if(this.nom ==false){
@@ -161,6 +197,7 @@ class pDiablo{
 
         if (!alive){
             document.querySelector("body").removeChild(this.node);
+            parent.removeChild(this.div)
         }
 
         return alive;

@@ -96,7 +96,6 @@ class Goute {
       this.diff = Math.random() *70;
       if(!this.gauche)
         this.x-=50
-
   }
 
   tick(){
