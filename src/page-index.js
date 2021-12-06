@@ -20,7 +20,6 @@ const tick = () => {
 
   if(Math.random() < 0.005){ //plus faire un requestAnimation frame pour que diablo apparaisse au mm moment
     spriteList.push(new Diablo());
-
     let n = Math.random();
     spriteList.push(new Balls(140,475,n));
     spriteList.push(new Balls(1440,475,n)); //corriger la balle n'est pas tjrs au mm endroit dependament du navigateur (mettre 1440 pour les plus gros navigateur)
@@ -42,7 +41,6 @@ const tick = () => {
 
 class Monstre {
   constructor(){
-
       this.x = Math.random() * 700 + 200;
       this.y = Math.random() * 600;
       this.mstNo =  Math.floor(Math.random() * 4 + 1);
@@ -75,7 +73,6 @@ class Diablo{
     this.node.setAttribute("class", "diablo");
     this.node.style.opacity = 1;
     this.node.style.top = 0 + "px";
-
     this.node.style.width = window.innerWidth;
     this.node.style.height = window.innerHeight;
     console.log(this.node.style.width)
@@ -105,11 +102,8 @@ class Balls{
     this.node.setAttribute("class", "balls");
     this.x =  x;
     this.y =  y;
-    
     this.node.style.top = this.y + "px";
     this.node.style.left = this.x + "px";
-
-
     this.n = n;
     this.speed = this.size/3;
 
@@ -120,23 +114,15 @@ class Balls{
 
     let up = 5;
     this.y -= up;
-
     let alive = this.y > 0;
-
     this.node.style.top = this.y + "px";
     this.node.style.left = this.x + "px";
     if (this.x == 1440){
       this.node.style.left = 80 + "vw";
-      console.log(this.node.style.left)
     }
-
     if (!alive){
       document.querySelector("body").removeChild(this.node);
   }
-
-
-
   return alive;
-
 }
 }

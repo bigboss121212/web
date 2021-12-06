@@ -26,7 +26,7 @@ class Ninja{
       let scale = 1.8;
       this.bouleList = [];
       this.tiledImage = new TiledImage("img/run.png", columCount, rowCount, delay, loop, scale)
-      this.tiledImage.changeRow(0); // s'il y a seulement une range
+      this.tiledImage.changeRow(0); 
       this.tiledImage.changeMinMaxInterval(0,6);
       this.tiledImage.nodeID = n
       this.tiledImage.opacity = 0.5;
@@ -71,7 +71,6 @@ class Ninja{
       }
 
       for (let i = 0; i < this.bouleList.length; i++) {
-        console.log( this.bouleList.length)
         let alive = this.bouleList[i].tick();
         if (!alive) {
           this.bouleList.splice(i, 1);
@@ -108,7 +107,7 @@ class Goute {
       let degrade = ctx.createRadialGradient(this.x+this.diff,this.y-100-this.monte-(this.id*10.5),10,this.x+7+this.diff,this.y+5-100-this.monte-(this.id*10.5),20);  
       degrade.addColorStop(0, '#CF0A2C');  
       degrade.addColorStop(0.9, '#079F62');  
-      degrade.addColorStop(1, 'rgba(1,159,98,0)');  // couleur transparente
+      degrade.addColorStop(1, 'rgba(1,159,98,0)'); 
       ctx.globalAlpha =0.5;
       ctx.fillStyle = degrade;  
       ctx.fillRect(this.x-150+this.diff,this.y-150-100-this.monte-(this.id*10.5),this.x+150+this.diff,this.y+150-100-this.monte-(this.id*10.5));

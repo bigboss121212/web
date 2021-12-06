@@ -5,7 +5,6 @@ import {registerCallbacks, sendMessage, signout, chatMessageLoop} from './chat-a
 
 let id = 0;
 let long = 0;
-let max = 0;
 let spriteList = [];
 let bool = true;
 export let mouseLocation = {x: 350, y : 400}
@@ -48,17 +47,6 @@ const newMessage = (fromUser, message, isPrivate) => {
 // À chaque 2-3 secondes, cette fonction est appelée. Il faudra donc mettre à jour la liste des membres
 // connectés dans votre interface.
 const memberListUpdate = members => {
-    /*if(long>members.length){
-        memberList=[]
-        for(let i = 0; i< spriteList.length; i++){
-            let cla = ".pDiablo" + i;
-            let node = document.querySelector(cla)
-            document.querySelector("body").removeChild(node);
-        }
-        spriteList=[]
-        long = 0;
-    }*/
-
 
     if(bool){
         for(let i = 0; i< members.length; i++){
@@ -90,35 +78,6 @@ const memberListUpdate = members => {
 
     long = members.length;
 
-    /*if(long > members.length){
-        messageList = [];
-        bool = true
-    }
-    long = members.length;
-
-    if (long > max){
-        if(bool){
-            memberList.push({
-            id:max,
-            members: members[max]
-            })
-        }
-        else if(!bool){
-                console.log("yo")
-                memberList.push({
-                id:max,
-                members: members[max]
-            })
-        }
-        spriteList.push(new pDiablo(max));
-        max++ 
-    }
-
-    if(long == max){
-        if(bool)
-        bool= false;
-    }*/
-
     for (let i =0; i < spriteList.length; i++) {
         let sprite = spriteList[i];
         let alive = sprite.tick();
@@ -146,7 +105,6 @@ const tick = () => {
 
 class pDiablo{
     constructor(max){
-
         this.x = 50 + max * 200;
         this.y = Math.random() * 600;
         this.mstNo =  Math.floor(Math.random() * 5 + 1);
@@ -156,12 +114,22 @@ class pDiablo{
         this.node.style.top = this.y + "px";
         this.max = max;
         this.nom = false;
-        
-        if (this.mstNo>1){
+        this.mems = memberList[this.max + 1].members
 
+        if (this.mstNo>1){
             this.node.style.top = 50 + "vh";
+            if(this.x > window.innerWidth){
+                this.node.style.top = 35 + "vh";
+            } 
             console.log(this.node.style.top)
+ 
         }
+
+       //pour que les persos ne sortent pas du cadre
+        if(this.x > window.innerWidth){
+            this.x = 100 ;
+        } 
+
         this.node.style.opacity = 1;
         document.querySelector("body").appendChild(this.node);
 
@@ -178,10 +146,11 @@ class pDiablo{
     tick() {
         this.node.style.left = this.x + "px";
         let alive = this.node.style.opacity > 0;
+        
         if(this.nom ==false){
             this.div = document.createElement("u3");
-            let mems = memberList[this.max + 1].members
-            let newText = document.createTextNode(mems);
+            
+            let newText = document.createTextNode(this.mems);
             this.div.appendChild(newText);
             this.div.style.position = "absolute"; 
             this.div.style.top = this.node.style.top;
@@ -189,11 +158,20 @@ class pDiablo{
             this.div.style.color = "white";
             this.div.style.border = "3px solid black";
             this.div.style.padding = "3px";
-
             let parent = document.querySelector("body");
             parent.appendChild(this.div)
             this.nom = true;
         }
+
+        //pour supprimer l'image
+        /*for(let i =0 ; i < memberList.length; i++){
+            if (memberList[i].members==this.mems){
+                return alive;
+            }
+            else if(i+1 == memberList.length){
+                alive = false;
+            }
+        }*/
 
         if (!alive){
             document.querySelector("body").removeChild(this.node);
